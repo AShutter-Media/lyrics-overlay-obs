@@ -5,10 +5,30 @@ import { useTrack } from "@/hooks/use-track";
 import { useLyrics } from "@/hooks/use-lyrics";
 import { LyricsDisplay } from "@/components/lyrics-display";
 import { buildTrackKey } from "@/lib/lrc-parser";
+import { setStoredToken } from "@/lib/companion-browser";
 
 const HIDE_AFTER_PAUSE_MS = 2000;
 
 export default function LyricsOverlayPage() {
+  // Al cargar en OBS: si la URL trae token en el hash, guardarlo y limpiar la URL
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const hash = window.location.hash;
+    const m = hash?.match(/[#&]token=([^&]+)/);
+    if (m) {
+      try {
+        setStoredToken(decodeURIComponent(m[1].replace(/\+/g, " ")));
+      } catch {
+        // ignore
+      }
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
+    }
+  }, []);
+
   const { track, currentTime, connected } = useTrack({ pollInterval: 1000 });
 
   // Debounced stable track identity (avoid flicker on quick poll jitter)

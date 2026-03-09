@@ -15,6 +15,12 @@ export default function HomePage() {
 
       <div className="flex flex-col items-center gap-4 w-full max-w-sm">
         <Link
+          href="/configure"
+          className="w-full text-center rounded-xl bg-red-600 text-white font-semibold py-4 px-6 text-lg hover:bg-red-500 transition-colors"
+        >
+          Conectar (Configure)
+        </Link>
+        <Link
           href="/overlay/lyrics"
           className="w-full text-center rounded-xl bg-white text-gray-950 font-semibold py-4 px-6 text-lg hover:bg-gray-200 transition-colors"
         >
@@ -32,26 +38,14 @@ export default function HomePage() {
         <h2 className="text-white font-semibold text-base">OBS Setup</h2>
         <ol className="list-decimal list-inside flex flex-col gap-2 leading-relaxed">
           <li>Start YouTube Music Desktop App with Companion Server enabled.</li>
-          <li>Run this app locally: <code className="text-green-400">pnpm dev</code></li>
           <li>
-            In OBS, add a{" "}
-            <strong className="text-white">Browser Source</strong> and set the
-            URL to{" "}
-            <code className="text-green-400 break-all">
-              http://localhost:3000/overlay/lyrics
-            </code>
+            <strong className="text-white">Conectar primero:</strong> haz clic en{" "}
+            <strong className="text-red-400">Conectar (Configure)</strong> arriba, pide el código, haz Allow en YTMDA y luego &quot;Ya hice clic en Allow&quot;.
           </li>
           <li>
-            Set the Browser Source dimensions to match your canvas (e.g.
-            1920×1080).
+            In OBS, add a <strong className="text-white">Browser Source</strong> and set the URL to this site&apos;s <strong className="text-white">/overlay/lyrics</strong> (e.g. <code className="text-green-400 break-all">https://tu-app.vercel.app/overlay/lyrics</code> or <code className="text-green-400">http://localhost:3000/overlay/lyrics</code> if local).
           </li>
-          <li>
-            Enable{" "}
-            <em className="text-gray-300">
-              &quot;Shutdown source when not visible&quot;
-            </em>{" "}
-            for clean behavior.
-          </li>
+          <li>Set the Browser Source dimensions to match your canvas (e.g. 1920×1080) and enable <em className="text-gray-300">Transparent background</em>.</li>
         </ol>
       </div>
     </main>

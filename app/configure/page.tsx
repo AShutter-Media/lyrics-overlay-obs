@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   requestAuthCodeFromBrowser,
   exchangeCodeForTokenFromBrowser,
@@ -16,6 +16,16 @@ export default function ConfigurePage() {
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [trackName, setTrackName] = useState<string | null>(null);
+  const [connectedToken, setConnectedToken] = useState<string | null>(null);
+  const [obsUrl, setObsUrl] = useState("");
+
+  useEffect(() => {
+    if (connectedToken && typeof window !== "undefined") {
+      setObsUrl(
+        `${window.location.origin}/overlay/lyrics#token=${encodeURIComponent(connectedToken)}`
+      );
+    }
+  }, [connectedToken]);
 
   async function handleRequestCode() {
     setStep("requesting");
@@ -61,6 +71,9 @@ export default function ConfigurePage() {
       const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
+        const token = data.token ?? null;
+        if (token) setStoredToken(token);
+        setConnectedToken(token ?? null);
         setStep("ok");
         setCode("");
         setMessage("");
@@ -76,6 +89,7 @@ export default function ConfigurePage() {
       try {
         const out = await exchangeCodeForTokenFromBrowser(code.trim());
         setStoredToken(out.token);
+        setConnectedToken(out.token);
         setStep("ok");
         setCode("");
         setMessage("");
@@ -157,22 +171,39 @@ export default function ConfigurePage() {
           )}
 
           {step === "ok" && (
-            <div className="w-full p-4 rounded-lg bg-green-900/40 border border-green-700 text-green-300 text-sm">
+            <div className="w-full p-4 rounded-lg bg-green-900/40 border border-green-700 text-green-300 text-sm space-y-3">
               <p className="font-medium">Conectado correctamente.</p>
               {trackName && (
-                <p className="mt-2 text-green-200/80">Ahora sonando: {trackName}</p>
+                <p className="text-green-200/80">Ahora sonando: {trackName}</p>
               )}
-              <p className="mt-3 text-gray-400">
-                Overlay en OBS:{" "}
-                <a
-                  href="/overlay/lyrics"
-                  className="text-red-400 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  http://localhost:3000/overlay/lyrics
-                </a>
-              </p>
+              {connectedToken && (
+                <div className="pt-2 border-t border-green-700/50">
+                  <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">
+                    URL para OBS (usa una vez)
+                  </p>
+                  <p className="text-gray-400 text-xs mb-2">
+                    Pega esta URL en la fuente Browser de OBS. La primera vez guardará el token; luego
+                    el overlay funcionará solo.
+                  </p>
+                  <div className="flex gap-2 items-center">
+                    <input
+                      type="text"
+                      readOnly
+                      value={obsUrl}
+                      className="flex-1 min-w-0 px-3 py-2 rounded bg-gray-800 border border-gray-600 text-white text-xs font-mono"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (obsUrl) navigator.clipboard?.writeText(obsUrl);
+                      }}
+                      className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm whitespace-nowrap"
+                    >
+                      Copiar
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

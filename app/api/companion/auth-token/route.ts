@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   try {
     const { token } = await exchangeCodeForToken(code);
     saveToken(token);
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, token });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
