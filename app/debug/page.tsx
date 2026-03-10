@@ -1,17 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTrack } from "@/hooks/use-track";
 import { useLyrics } from "@/hooks/use-lyrics";
 import { getActiveLyricIndex } from "@/lib/lrc-parser";
 import { cn } from "@/lib/utils";
+import { getStoredToken } from "@/lib/companion-browser";
 
 export default function DebugPage() {
-  const { track, currentTime, connected, error: trackError } = useTrack({
+  const { track, currentTime, error: trackError } = useTrack({
     pollInterval: 1000,
   });
 
   const [showRaw, setShowRaw] = useState(false);
+  const [obsUrl, setObsUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const token = getStoredToken();
+    if (token) {
+      setObsUrl(
+        `${window.location.origin}/overlay/lyrics#token=${encodeURIComponent(token)}`
+      );
+    } else {
+      setObsUrl(`${window.location.origin}/overlay/lyrics`);
+    }
+  }, []);
 
   const { lines, synced, loading, error: lyricsError } = useLyrics({
     artist: track?.artist ?? "",
@@ -31,29 +45,14 @@ export default function DebugPage() {
 
   return (
     <main className="min-h-screen bg-gray-950 text-gray-100 p-6 font-mono">
-      <h1 className="text-2xl font-bold mb-6 text-white">
-        Karaoke Overlay — Debug
-      </h1>
-
-      {/* Connection Status */}
-      <section className="mb-6 p-4 rounded-lg bg-gray-900 border border-gray-800">
-        <h2 className="text-sm uppercase tracking-widest text-gray-400 mb-3">
-          Connection Status
-        </h2>
-        <div className="flex items-center gap-2">
-          <span
-            className={cn(
-              "w-3 h-3 rounded-full",
-              connected ? "bg-green-400 animate-pulse" : "bg-red-500"
-            )}
-          />
-          <span className={connected ? "text-green-400" : "text-red-400"}>
-            {connected
-              ? "Connected to YouTube Music Desktop App"
-              : trackError ?? "Not connected"}
-          </span>
-        </div>
-      </section>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-white">
+          Karaoke / Lyrics for OBS by ZUmbra, Trese & AShutter Media.
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">
+          Real-time synchronized lyrics optimized for OBS & Live Streaming.
+        </p>
+      </div>
 
       {/* Current Track */}
       <section className="mb-6 p-4 rounded-lg bg-gray-900 border border-gray-800">
@@ -157,12 +156,17 @@ export default function DebugPage() {
         <h2 className="text-sm uppercase tracking-widest text-gray-400 mb-2">
           OBS Browser Source URL
         </h2>
-        <code className="text-green-400 text-sm break-all">
-          http://localhost:3000/overlay/lyrics
+        <code className="text-green-400 text-sm break-all block">
+          {obsUrl || "…"}
         </code>
+        {obsUrl.includes("token=") && (
+          <p className="text-gray-400 text-xs mt-1">
+            Your personal URL (from /configure). Use this in OBS Browser source.
+          </p>
+        )}
         <p className="text-gray-500 text-xs mt-2">
-          Set width/height to match your canvas. Enable "Shutdown source when not
-          visible" and "Refresh browser when scene becomes active" for best results.
+          Set width/height to match your canvas. Enable &quot;Shutdown source when not
+          visible&quot; and &quot;Refresh browser when scene becomes active&quot; for best results.
         </p>
       </section>
     </main>
