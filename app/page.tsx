@@ -30,7 +30,9 @@ export default function HomePage() {
           Real-time Lyrics
         </Link>
         <Link
-          href="#"
+          href="https://www.heytrese.com/?section=support"
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full text-center rounded-xl bg-amber-600 text-white font-semibold py-4 px-6 text-lg hover:bg-amber-500 transition-colors"
         >
           Donate
@@ -76,7 +78,16 @@ export default function HomePage() {
           <li>
             <strong className="text-gray-300">Tip:</strong> this overlay can be customized with CSS. If you&apos;re interested in making your own modifications, let us know via{" "}
             <span className="text-white">@zumbra.labs</span> and{" "}
-            <span className="text-white">@ashuttermedia</span>. If you like the project, you can support us by donating with the Donate button above. Don&apos;t forget to visit{" "}
+            <span className="text-white">@ashuttermedia</span>. If you like the project, you can support us by donating with the{" "}
+            <a
+              href="https://www.heytrese.com/?section=support"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-red-400 hover:text-red-300 underline"
+            >
+              Donate button
+            </a>{" "}
+            above. Don&apos;t forget to visit{" "}
             <a
               href="https://zumbra.xyz"
               target="_blank"
