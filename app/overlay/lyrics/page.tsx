@@ -29,7 +29,7 @@ export default function LyricsOverlayPage() {
     }
   }, []);
 
-  const { track, currentTime, connected } = useTrack({ pollInterval: 1000 });
+  const { track, currentTime, connected } = useTrack({ pollInterval: 2000 });
 
   // Debounced stable track identity (avoid flicker on quick poll jitter)
   const [stableTrack, setStableTrack] = useState<{

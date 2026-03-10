@@ -28,6 +28,12 @@ export default function ConfigurePage() {
   const [trackName, setTrackName] = useState<string | null>(null);
   const [connectedToken, setConnectedToken] = useState<string | null>(null);
   const [obsUrl, setObsUrl] = useState("");
+  const [isDeployedOrigin, setIsDeployedOrigin] = useState(false);
+
+  useEffect(() => {
+    const o = typeof window !== "undefined" ? window.location.origin : "";
+    setIsDeployedOrigin(!o.startsWith("http://localhost") && !o.startsWith("http://127.0.0.1"));
+  }, []);
 
   useEffect(() => {
     if (connectedToken && typeof window !== "undefined") {
@@ -52,9 +58,16 @@ export default function ConfigurePage() {
         try {
           const out = await requestAuthCodeFromBrowser();
           codeValue = out.code;
-        } catch {
+        } catch (err) {
           setStep("error");
-          setMessage(toErrorString(data.error, "No se pudo conectar al Companion. ¿YTMDA está abierto?"));
+          const msg = toErrorString(err, "No se pudo conectar al Companion. ¿YTMDA está abierto?");
+          const isCorsOrNetwork =
+            /fetch|Failed to fetch|access control|CORS|NetworkError|Load failed/i.test(msg);
+          setMessage(
+            isCorsOrNetwork
+              ? "El navegador bloqueó la conexión al Companion (CORS). Abre la app en local: ejecuta 'npm run dev' y ve a http://localhost:3000/configure para conectar, luego copia la URL para OBS."
+              : msg
+          );
           return;
         }
       }
@@ -129,6 +142,13 @@ export default function ConfigurePage() {
           Este overlay usa la <strong>API oficial</strong> del Companion (igual que el widget de
           Nutty). Sigue estos dos pasos:
         </p>
+        {isDeployedOrigin && (
+          <p className="text-amber-400/90 text-center text-xs max-w-md">
+            Si al pedir el código falla la conexión, YouTube Music solo acepta peticiones desde
+            esta misma máquina. Ejecuta la app en local (<code className="bg-gray-800 px-1 rounded">npm run dev</code>) y abre{" "}
+            <code className="bg-gray-800 px-1 rounded">http://localhost:3000/configure</code> para conectar, luego copia la URL para OBS.
+          </p>
+        )}
 
         <div className="flex flex-col items-center gap-4">
           {step === "idle" && (
