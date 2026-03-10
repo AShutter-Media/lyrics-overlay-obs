@@ -33,7 +33,7 @@ export default function HomePage() {
           href="#"
           className="w-full text-center rounded-xl bg-amber-600 text-white font-semibold py-4 px-6 text-lg hover:bg-amber-500 transition-colors"
         >
-          Donar
+          Donate
         </Link>
         <Link
           href="/debug"
@@ -47,7 +47,7 @@ export default function HomePage() {
         <h2 className="text-white font-semibold text-base">Instructions</h2>
         <ol className="list-decimal list-inside flex flex-col gap-4 leading-relaxed space-y-1">
           <li>
-            Descarga e instala{" "}
+            Download and install the{" "}
             <a
               href="https://ytmdesktop.app/"
               target="_blank"
@@ -56,27 +56,27 @@ export default function HomePage() {
             >
               YouTube Music Desktop App
             </a>
-            . Ábrela y ve a <strong className="text-white">Settings</strong> →{" "}
-            <strong className="text-white">Integrations</strong>: activa{" "}
+            . Open it and go to <strong className="text-white">Settings</strong> →{" "}
+            <strong className="text-white">Integrations</strong>: enable{" "}
             <strong className="text-gray-300">Companion Server</strong>,{" "}
-            <strong className="text-gray-300">Allow browser communication</strong> y{" "}
+            <strong className="text-gray-300">Allow browser communication</strong>, and{" "}
             <strong className="text-gray-300">Enable companion authorization</strong>.
           </li>
           <li>
-            Una vez configurada la app de YouTube Music, vuelve a esta página y haz clic en{" "}
-            <strong className="text-red-400">Connect to Youtube Music</strong>, luego sigue los pasos que se muestran en esa pantalla.
+            Once YouTube Music is set up, come back to this page and click{" "}
+            <strong className="text-red-400">Connect to Youtube Music</strong>, then follow the steps shown on that page.
           </li>
           <li>
-            Después de estos dos pasos ya deberías poder ver los lyrics de las canciones que reproduzcas en YouTube Music en tiempo real. Puedes comprobarlo o usar tu navegador para hacer karaoke haciendo clic en{" "}
-            <strong className="text-white">Real-time Lyrics</strong>. La finalidad del proyecto es usarlo como overlay/widget para OBS: mostrar los lyrics en tu live stream de manera sencilla, limpia, moderna y automatizada — ya sea como herramienta de karaoke o para ver las letras de tus canciones favoritas junto a tu audiencia en tiempo real.
+            After these two steps you should be able to see the lyrics of whatever you play on YouTube Music in real time. You can try it or use your browser for karaoke by clicking{" "}
+            <strong className="text-white">Real-time Lyrics</strong>. The goal of this project is to use it as an overlay/widget for OBS: show lyrics on your live stream in a simple, clean, modern, and automated way — whether as a karaoke tool or just to share the lyrics of your favorite songs with your audience in real time.
           </li>
           <li>
-            En OBS, el enlace donde aparecen los lyrics debe pegarse en una nueva fuente de tipo <strong className="text-white">Browser</strong>. ¡Y listo! Verás el overlay de lyrics con fondo transparente y en tiempo real en tu stream, sincronizado con tu YouTube Music. Cuando empiece la siguiente canción o elijas otra, tú y tu audiencia podréis ver los lyrics y, por qué no, cantar juntos.
+            In OBS, paste the lyrics URL into a new <strong className="text-white">Browser</strong> source. That&apos;s it! You&apos;ll see the lyrics overlay with a transparent background in real time on your stream, synced with YouTube Music. When the next song starts or you pick another one, you and your audience can see the lyrics and — why not — sing along together.
           </li>
           <li>
-            <strong className="text-gray-300">Tip:</strong> este overlay se puede personalizar con CSS. Si te interesa hacer tus propias modificaciones, déjanos saber a través de{" "}
-            <span className="text-white">@zumbra.labs</span> y{" "}
-            <span className="text-white">@ashuttermedia</span>. Si te gusta el proyecto, puedes apoyarnos donando con el botón Donar de arriba. No olvides visitar{" "}
+            <strong className="text-gray-300">Tip:</strong> this overlay can be customized with CSS. If you&apos;re interested in making your own modifications, let us know via{" "}
+            <span className="text-white">@zumbra.labs</span> and{" "}
+            <span className="text-white">@ashuttermedia</span>. If you like the project, you can support us by donating with the Donate button above. Don&apos;t forget to visit{" "}
             <a
               href="https://zumbra.xyz"
               target="_blank"
@@ -85,7 +85,7 @@ export default function HomePage() {
             >
               zumbra.xyz
             </a>{" "}
-            y{" "}
+            and{" "}
             <a
               href="https://ashuttermedia.com"
               target="_blank"
@@ -94,7 +94,7 @@ export default function HomePage() {
             >
               ashuttermedia.com
             </a>{" "}
-            para más herramientas y apps.
+            for more tools and apps.
           </li>
         </ol>
       </div>
