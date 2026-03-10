@@ -11,6 +11,16 @@ import {
 
 type Step = "idle" | "requesting" | "show_code" | "exchanging" | "ok" | "error";
 
+/** Ensure we never display [object Object]; always show a string. */
+function toErrorString(value: unknown, fallback: string): string {
+  if (value == null) return fallback;
+  if (typeof value === "string") return value;
+  if (typeof value === "object" && value !== null && "message" in value && typeof (value as { message: unknown }).message === "string")
+    return (value as { message: string }).message;
+  if (value instanceof Error) return value.message;
+  return fallback;
+}
+
 export default function ConfigurePage() {
   const [step, setStep] = useState<Step>("idle");
   const [code, setCode] = useState("");
@@ -44,16 +54,16 @@ export default function ConfigurePage() {
           codeValue = out.code;
         } catch {
           setStep("error");
-          setMessage(data.error ?? "No se pudo conectar al Companion. ¿YTMDA está abierto?");
+          setMessage(toErrorString(data.error, "No se pudo conectar al Companion. ¿YTMDA está abierto?"));
           return;
         }
       }
       setCode(codeValue);
       setStep("show_code");
       setMessage("");
-    } catch {
+    } catch (err) {
       setStep("error");
-      setMessage("Error de red al pedir el código.");
+      setMessage(toErrorString(err, "Error de red al pedir el código."));
     }
   }
 
@@ -102,9 +112,9 @@ export default function ConfigurePage() {
         setStep("show_code");
         setMessage("No se pudo obtener el token. ¿Has hecho clic en Allow en YTMDA?");
       }
-    } catch {
+    } catch (err) {
       setStep("show_code");
-      setMessage("Error de red al intercambiar el código.");
+      setMessage(toErrorString(err, "Error de red al intercambiar el código."));
     }
   }
 
@@ -210,7 +220,7 @@ export default function ConfigurePage() {
           {step === "error" && (
             <div className="w-full space-y-3">
               <div className="p-4 rounded-lg bg-red-900/40 border border-red-700 text-red-200 text-sm">
-                {message}
+                {typeof message === "string" ? message : "Ha ocurrido un error."}
               </div>
               <button
                 type="button"
