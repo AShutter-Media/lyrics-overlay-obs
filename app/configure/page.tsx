@@ -135,7 +135,9 @@ export default function ConfigurePage() {
     <main className="min-h-screen bg-gray-950 text-gray-100 p-6 flex flex-col items-center justify-center">
       <div className="max-w-xl w-full space-y-6">
         <h1 className="text-2xl font-bold text-white text-center">
-          Karaoke / Lyrics for OBS — Connect to YouTube Music Desktop App
+          Karaoke / Lyrics for OBS
+          <br />
+          Connect to YouTube Music Desktop App
         </h1>
 
         <p className="text-gray-400 text-center text-sm">
@@ -144,7 +146,7 @@ export default function ConfigurePage() {
           <span className="text-gray-500 text-xs">Created by ZUmbra, Trese & AShutter Media.</span>
         </p>
         {isDeployedOrigin && (
-          <p className="text-amber-400/90 text-center text-xs max-w-md">
+          <p className="text-amber-400/90 text-center text-xs max-w-md mx-auto">
             To connect from this page you need <strong>Enable companion authorization</strong> turned ON in YouTube Music Desktop (Settings → Integrations — it appears below &quot;Allow browser communication&quot;).
           </p>
         )}
@@ -250,7 +252,7 @@ export default function ConfigurePage() {
           )}
         </div>
 
-        <div className="pt-6 border-t border-gray-800 text-gray-500 text-xs space-y-3 max-w-xl">
+        <div className="pt-6 border-t border-gray-800 text-gray-400 text-sm space-y-3 max-w-xl">
           <p className="text-white font-medium">Setup in YouTube Music Desktop App</p>
           <p>
             Open the{" "}
@@ -265,10 +267,10 @@ export default function ConfigurePage() {
             first. You don&apos;t need to sign in to your account, but we recommend it — especially if you have YouTube Premium (to avoid ads and use your recommended music, playlists, etc.).
           </p>
           <p>
-            In the app, click <strong className="text-gray-300">Settings</strong>, then go to <strong className="text-gray-300">Integrations</strong> and turn on <strong className="text-gray-300">Companion server</strong>. Then turn on <strong className="text-gray-300">Allow browser communication</strong> and <strong className="text-gray-300">Enable companion authorization</strong>. Once that last one is on, you have <strong>5 minutes</strong> to come back to this page (/configure) and click the <strong>Connect</strong> button. If the 5 minutes run out, just go back to the YouTube Music app and turn <strong className="text-gray-300">Enable companion authorization</strong> on again — that will give you another 5 minutes to connect.
+            In the app, click <strong className="text-gray-300">Settings</strong>, then go to <strong className="text-gray-300">Integrations</strong> and turn on <strong className="text-gray-300">Companion server</strong>. Then turn on <strong className="text-gray-300">Allow browser communication</strong> and <strong className="text-gray-300">Enable companion authorization</strong>. Once that last one is on, you have <strong className="text-gray-300">5 minutes</strong> to come back to this page (/configure) and click the <strong className="text-gray-300">Connect</strong> button. If the 5 minutes run out, just go back to the YouTube Music app and turn <strong className="text-gray-300">Enable companion authorization</strong> on again — that will give you another 5 minutes to connect.
           </p>
           <p>
-            If you followed all the steps correctly, you should see a code. Click the green <strong>Allow</strong> button. A popup from YouTube Music Desktop App will appear saying &quot;Companion Authorization Request&quot; and showing the same code as in the browser (for security). Click <strong>Allow</strong> and you&apos;re done — you&apos;re connected. Copy the link that appears and paste it into a Browser source in OBS to add lyrics to your stream, or open that link in your browser for a dedicated lyrics tab. You can also open the link on your TV or share your screen for karaoke at a party or with friends!
+            If you followed all the steps correctly, you should see a <strong className="text-gray-300">code</strong>. Click the green <strong className="text-green-400">Allow</strong> button. A popup from <strong className="text-gray-300">YouTube Music Desktop App</strong> will appear saying &quot;<strong className="text-gray-300">Companion Authorization Request</strong>&quot; and showing the same code as in the browser (for security). Click <strong className="text-gray-300">Allow</strong> and you&apos;re done — you&apos;re connected. Copy the <strong className="text-gray-300">link</strong> that appears and paste it into a <strong className="text-gray-300">Browser source</strong> in <strong className="text-gray-300">OBS</strong> to add lyrics to your stream, or open that link in your browser for a dedicated lyrics tab. You can also open the link on your <strong className="text-gray-300">TV</strong> or share your screen for <strong className="text-gray-300">karaoke</strong> at a party or with friends!
           </p>
         </div>
       </div>
