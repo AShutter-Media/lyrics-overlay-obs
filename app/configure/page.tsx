@@ -65,7 +65,7 @@ export default function ConfigurePage() {
             /fetch|Failed to fetch|access control|CORS|NetworkError|Load failed/i.test(msg);
           setMessage(
             isCorsOrNetwork
-              ? "El navegador bloqueó la conexión al Companion (CORS). Abre la app en local: ejecuta 'npm run dev' y ve a http://localhost:3000/configure para conectar, luego copia la URL para OBS."
+              ? "Activa «Allow browser communication» en YouTube Music Desktop (Settings → Integrations, debajo de Companion server). Si ya está ON, desactiva y vuelve a activar «Companion server» o reinicia YTMDA y vuelve a intentar."
               : msg
           );
           return;
@@ -144,9 +144,7 @@ export default function ConfigurePage() {
         </p>
         {isDeployedOrigin && (
           <p className="text-amber-400/90 text-center text-xs max-w-md">
-            Si al pedir el código falla la conexión, YouTube Music solo acepta peticiones desde
-            esta misma máquina. Ejecuta la app en local (<code className="bg-gray-800 px-1 rounded">npm run dev</code>) y abre{" "}
-            <code className="bg-gray-800 px-1 rounded">http://localhost:3000/configure</code> para conectar, luego copia la URL para OBS.
+            Para conectar desde esta página necesitas <strong>Allow browser communication</strong> en ON (YouTube Music Desktop → Settings → Integrations, debajo de Companion server).
           </p>
         )}
 
@@ -256,8 +254,8 @@ export default function ConfigurePage() {
         <div className="pt-6 border-t border-gray-800 text-gray-500 text-xs space-y-2">
           <p>Requisitos en YouTube Music Desktop:</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Settings → Integrations → Companion Server activado</li>
-            <li>Allow browser communication: ON</li>
+            <li>Settings → Integrations → <strong>Companion server</strong>: ON</li>
+            <li><strong>Allow browser communication</strong>: ON (imprescindible para conectar desde esta web)</li>
             <li>Enable companion authorization: ON (para que aparezca la ventana con el código)</li>
           </ul>
         </div>

@@ -55,14 +55,8 @@ export async function requestAuthCodeFromBrowser(): Promise<{ code: string }> {
   if (!res.ok) {
     const body = await res.text();
     if (res.status === 403) {
-      const isLocal =
-        typeof window !== "undefined" &&
-        (window.location.origin.startsWith("http://localhost") ||
-          window.location.origin.startsWith("http://127.0.0.1"));
       throw new Error(
-        isLocal
-          ? "YouTube Music Desktop rejected the request (403). Check Settings → Integrations: Companion Server, Allow browser communication, and Enable companion authorization must be ON."
-          : "YouTube Music Desktop only allows connections from the same machine. Open the app locally (run 'npm run dev' and go to http://localhost:3000/configure), complete the steps there, then copy the OBS URL to use in OBS."
+        "Turn ON «Allow browser communication» in YouTube Music Desktop (Settings → Integrations, below Companion server). Then try again."
       );
     }
     throw new Error(body || `Companion returned ${res.status}`);

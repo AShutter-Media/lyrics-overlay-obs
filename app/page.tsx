@@ -58,8 +58,8 @@ export default function HomePage() {
             </a>
             . Open it and go to <strong className="text-white">Settings</strong> →{" "}
             <strong className="text-white">Integrations</strong>: enable{" "}
-            <strong className="text-gray-300">Companion Server</strong>,{" "}
-            <strong className="text-gray-300">Allow browser communication</strong>, and{" "}
+            <strong className="text-gray-300">Companion server</strong>, then{" "}
+            <strong className="text-gray-300">Allow browser communication</strong> (required for this site), and{" "}
             <strong className="text-gray-300">Enable companion authorization</strong>.
           </li>
           <li>
