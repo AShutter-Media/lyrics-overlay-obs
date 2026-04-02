@@ -3,7 +3,7 @@
  * Las peticiones van desde tu PC al YTMDA en localhost:9863.
  */
 
-// Use localhost (same as Nutty's widget) so Companion CORS may allow cross-origin from deployed sites
+// Use localhost (matches common Companion examples; CORS requires "Allow browser communication" in YTMDA)
 const COMPANION_URL = "http://localhost:9863";
 const API = `${COMPANION_URL}/api/v1`;
 const STORAGE_KEY = "companion-token";
@@ -14,10 +14,10 @@ const APP = {
   appVersion: "1.0.0",
 };
 
-/** Same appId/appName as Nutty's widget so YTMDA Companion CORS allowlist may allow our origin */
+/** Companion app identity (shown in YTMDA authorized companions; must not collide with other widgets). */
 const AUTH_APP = {
-  appId: "nuttys-ytmdesktop-widget",
-  appName: "nuttys YouTube Music Widget",
+  appId: "trese-music-lyrics-widget",
+  appName: "Treses Music Lyrics Widget",
   appVersion: "1.0.0",
 };
 
@@ -44,7 +44,7 @@ export function setStoredToken(token: string): void {
   if (isBrowser()) localStorage.setItem(STORAGE_KEY, token);
 }
 
-/** Pedir código de autorización (desde el navegador). En YTMDA suele aparecer el popup. Uses AUTH_APP so Companion CORS allowlist accepts cross-origin from deployed site. */
+/** Pedir código de autorización (desde el navegador). En YTMDA suele aparecer el popup. */
 export async function requestAuthCodeFromBrowser(): Promise<{ code: string }> {
   const res = await fetch(`${API}/auth/requestcode`, {
     method: "POST",
@@ -67,7 +67,7 @@ export async function requestAuthCodeFromBrowser(): Promise<{ code: string }> {
   return { code };
 }
 
-/** Intercambiar código por token (después de Allow en YTMDA). Uses AUTH_APP.appId so Companion accepts (same CORS as requestcode). */
+/** Intercambiar código por token (después de Allow en YTMDA). */
 export async function exchangeCodeForTokenFromBrowser(code: string): Promise<{ token: string }> {
   const res = await fetch(`${API}/auth/request`, {
     method: "POST",
