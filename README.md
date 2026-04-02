@@ -2,6 +2,8 @@
 
 Overlay de letras para OBS Studio sincronizado con **YouTube Music Desktop App**. Muestra letras con o sin sync (plain) y se puede usar en local o desplegado en Vercel.
 
+**Roadmap V2:** notas para la siguiente versión (más plataformas, refresco de arquitectura) → [`docs/V2-ROADMAP.md`](docs/V2-ROADMAP.md).
+
 ## Requisitos
 
 - [YouTube Music Desktop App](https://github.com/ytmdesktop/ytmdesktop) con el **Companion Server** activado (Settings → Integrations).
