@@ -1,0 +1,70 @@
+# Copy into each site repo as .github/workflows/deploy-vercel.yml
+# Requires repo secrets: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+#
+# This deploys as the Vercel token owner (bypasses Hobby collaborator block).
+
+name: Deploy Vercel production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-prod-${{ github.repository }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel production deployment (API)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          REF: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ -z "${VERCEL_TOKEN}" ] || [ -z "${VERCEL_ORG_ID}" ] || [ -z "${VERCEL_PROJECT_ID}" ]; then
+            echo "Missing secrets VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID"
+            exit 1
+          fi
+          BODY=$(jq -n \
+            --arg name "$REPO_NAME" \
+            --arg project "$REPO_NAME" \
+            --arg ref "$REF" \
+            --arg org "AShutter-Media" \
+            --arg repo "$REPO_NAME" \
+            '{
+              name: $name,
+              project: $project,
+              gitSource: { type: "github", org: $org, repo: $repo, ref: $ref },
+              target: "production"
+            }')
+          RESP=$(curl -sS -X POST \
+            "https://api.vercel.com/v13/deployments?teamId=${VERCEL_ORG_ID}&forceNew=1" \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$BODY")
+          echo "$RESP" | jq '{id, readyState, url, error}'
+          DPL=$(echo "$RESP" | jq -r '.id // empty')
+          test -n "$DPL"
+          for i in $(seq 1 60); do
+            sleep 10
+            ST=$(curl -sS -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              "https://api.vercel.com/v13/deployments/${DPL}?teamId=${VERCEL_ORG_ID}")
+            STATE=$(echo "$ST" | jq -r '.readyState')
+            echo "[$i] $STATE"
+            if [ "$STATE" = "READY" ]; then
+              echo "$ST" | jq '{url, alias, readyState}'
+              exit 0
+            fi
+            if [ "$STATE" = "ERROR" ] || [ "$STATE" = "CANCELED" ]; then
+              echo "$ST" | jq '{errorCode, errorMessage, readyState}'
+              exit 1
+            fi
+          done
+          echo "timeout"
+          exit 1
