@@ -11,7 +11,7 @@ export default function HomePage() {
           Real-time synchronized lyrics optimized for OBS & Live Streaming.
           <br />
           <span className="text-gray-500 text-sm">
-            Created by ZUmbra, Trese & AShutter Media.
+            Created with love by ZUmbra, Trese & AShutter Media.
           </span>
         </p>
       </div>
